@@ -1,37 +1,34 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+// app.component.ts
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { Component } from '@angular/core';
+import { ApiService } from './load-service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+export class AppComponent {
+  fileUploadModel = { userEmail: '', file: null };
 
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
-  ngOnInit() {
-    this.getForecasts();
+  onFileSelected(event: any): void {
+    this.fileUploadModel.file = event.target.files[0];
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  onSubmit(): void {
+    if (this.fileUploadModel.file && this.fileUploadModel.userEmail) {
+      this.apiService.uploadFile(this.fileUploadModel).subscribe(
+        response => {
+          console.log('File uploaded successfully:', response);
+        },
+        error => {
+          console.error('Error uploading file:', error);
+        }
+      );
+    } else {
+      console.warn('Please select a file and enter an email.');
+    }
   }
-
-  title = 'task_test.client';
 }
