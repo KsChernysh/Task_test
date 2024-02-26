@@ -1,0 +1,6 @@
+@Task_test.Server_HostAddress = http://localhost:5049
+
+GET {{Task_test.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
