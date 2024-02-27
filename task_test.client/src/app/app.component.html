@@ -1,7 +1,8 @@
-﻿<!-- app.component.html -->
+<!-- app.component.html -->
 
 <form (ngSubmit)="onSubmit()">
   <input type="file" (change)="onFileSelected($event)" />
-  <input type="email" [(ngModel)]="fileUploadModel.userEmail" placeholder="Enter Email" name="userEmail" />
+  <label for="userEmail">Email:</label>
+  <input type="email" id="userEmail" name="userEmail" [(ngModel)]="fileUploadModel.userEmail" required>
   <button type="submit">Upload File</button>
 </form>
