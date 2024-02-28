@@ -1,22 +1,66 @@
-﻿:host {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
+:host {
+  max-width: 1280px;
+  padding: 2rem;
+  text-align: center;
+  
 }
 
 tr:nth-child(even) {
-    background: #F2F2F2;
+  background: #F2F2F2;
 }
 
 tr:nth-child(odd) {
-    background: #FFF;
+  background: #FFF;
 }
 
 th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 table {
-    margin: 0 auto;
+  margin: 0 auto;
+}
+
+form {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fbf3ffd9;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+/* Optional: Style the file input */
+input[type="file"] {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
 }

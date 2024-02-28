@@ -1,8 +1,11 @@
-<!-- app.component.html -->
-
 <form (ngSubmit)="onSubmit()">
-  <input type="file" (change)="onFileSelected($event)" />
+  <label for="fileD">File</label>
+  <input type="file" name="fileD" id="fileD" (change)="onFileSelected($event)" />
+  <p style="color:red">{{errorMessageforFile}}</p>
   <label for="userEmail">Email:</label>
-  <input type="email" id="userEmail" name="userEmail" [(ngModel)]="fileUploadModel.userEmail" required>
+  <input type="email" id="userEmail" name="userEmail" [(ngModel)]="model.userEmail" required>
+  <p style="color:red">{{errorMessageforEmail}}</p>
   <button type="submit">Upload File</button>
+  <p style="color:green">{{resultMessage}}</p>
+
 </form>

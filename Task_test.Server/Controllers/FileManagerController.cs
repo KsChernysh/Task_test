@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 
-[Route("api")]
+[Route("filemanager")]
 public class FileUploadController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -19,34 +19,33 @@ public class FileUploadController : ControllerBase
 
     public class FileUploadModel
     {
-        [Required]
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        public string UserEmail { get; set; }
+       [Required]
+       [EmailAddress(ErrorMessage = "Invalid email format.")]
+        public string userEmail { get; set; }
 
-        // Add any other properties you need for the model
-        public byte[] FileBytes { get; set; }
-        public string ContentType { get; set; }
-        public string FileName { get; set; }
+        
+        public string file { get; set; }
+       
     }
 
     [HttpPost("uploadBytes")]
     public async Task<IActionResult> UploadFileBytes([FromBody] FileUploadModel model)
     {
         // Validate file type
-        if (model.FileBytes != null && model.ContentType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        if (model.file != null)// && model.ContentType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
         {
             // Validate email
-            if (IsValidEmail(model.UserEmail))
+            if (IsValidEmail(model.userEmail))
             {
-                // Get file extension
-                string fileExtension = Path.GetExtension(model.FileName);
 
                 // Upload file to Blob Storage
                 var blobContainer = GetBlobContainer();
-                var blobName = Guid.NewGuid().ToString() + fileExtension; // Use the same file extension
+                var blobName = $"{model.userEmail}_{Guid.NewGuid().ToString()}.docx";
                 var blockBlob = blobContainer.GetBlockBlobReference(blobName);
+                blockBlob.Metadata.Add("email", model.userEmail);
+                byte[] fileData = Convert.FromBase64String(model.file);
 
-                using (var stream = new MemoryStream(model.FileBytes))
+                using (var stream = new MemoryStream(fileData))
                 {
                     await blockBlob.UploadFromStreamAsync(stream);
                 }

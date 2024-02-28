@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = '/file';
+  private apiUrl = '/filemanager';
 
   constructor(private http: HttpClient) { }
 
@@ -20,16 +21,19 @@ export class ApiService {
       console.log(key + ', ' + value);
     });
 
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+    return this.http.post(`filemanager/uploadfilebytes`, formData);
   }
-
+   public httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data', // Set your desired content type
+    }),
+  };
   uploadFileBytes(fileBytes: string, userEmail: string): Observable<any> {
-    const requestData = {
-      fileBytes: fileBytes,
-      userEmail: userEmail
-    };
+    const formData = new FormData();
+    formData.append('file', fileBytes);
+    formData.append('userEmail', userEmail);
 
-    return this.http.post(`${this.apiUrl}/uploadBytes`, requestData);
+    return this.http.post(`${this.apiUrl}/uploadbytes`, formData,this.httpOptions);
   }
 
 }
